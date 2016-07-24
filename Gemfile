@@ -18,6 +18,10 @@ gem 'devise', '~> 4.2'
 gem 'toastr-rails', '~> 1.0', '>= 1.0.3'
 gem 'figaro'
 gem 'sendgrid-rails', '~> 2.0', '>= 2.0.5'
+gem 'omniauth', '~> 1.3', '>= 1.3.1'
+gem 'omniauth-facebook', '~> 3.0'
+gem "omniauth-google-oauth2"
+
 
 group :development, :test do
   gem 'byebug'
