@@ -7,7 +7,7 @@ class RoomsController < ApplicationController
   end
 
   def show
-
+    @photos = @room.photos
   end
 
   def new
@@ -18,26 +18,44 @@ class RoomsController < ApplicationController
     @room = current_user.rooms.build(room_params)
 
     if @room.save
-      redirect_to @room, notice: "Saved..."
+
+      if params[:images]
+        params[:images].each do |image|
+          @room.photos.create(image: image)
+        end
+      end
+
+      @photos = @room.photos
+      redirect_to edit_room_path(@room), notice: "Saved..."
     else
-      render :new
+      render :new, notice: "Your room was not saved, please try again"
     end
   end
 
   def edit
-
+    if current_user.id == @room.user.id
+      @photos = @room.photos
+    else
+      redirect_to root_path, notice: "You don't have permission."
+    end
   end
 
   def update
     if @room.update(room_params)
-      redirect_to @room, notice: "Updated..."
+
+      if params[:images]
+        params[:images].each do |image|
+          @room.photos.create(image: image)
+        end
+      end
+
+      redirect_to edit_room_path(@room), notice: "Updated..."
     else
       render :edit
     end
   end
 
   private
-
     def set_room
       @room = Room.find(params[:id])
     end
