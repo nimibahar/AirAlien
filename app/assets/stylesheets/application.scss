@@ -97,6 +97,13 @@ body {
   height: 4rem;
 }
 
+.field_with_errors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+
 .sidebar-list {
   padding-left: 0;
   list-style: none;

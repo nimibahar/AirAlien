@@ -13,4 +13,6 @@ class Room < ActiveRecord::Base
   validates :listing_name, presence: true, length: {maximum: 50}
   validates :summery, presence: true, length: {maximum: 500}
   validates :address, presence: true
+  validates :price, presence: true, numericality: true
+  validates_associated :photos, presence: true
 end

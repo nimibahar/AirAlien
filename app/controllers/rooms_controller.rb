@@ -28,7 +28,8 @@ class RoomsController < ApplicationController
       @photos = @room.photos
       redirect_to edit_room_path(@room), notice: "Saved..."
     else
-      render :new, notice: "Your room was not saved, please try again"
+      flash[:alert] = "Please provide all information for this room."
+      render :new
     end
   end
 
@@ -51,6 +52,7 @@ class RoomsController < ApplicationController
 
       redirect_to edit_room_path(@room), notice: "Updated..."
     else
+      flash[:alert] = "Please provide all information for this room."
       render :edit
     end
   end
@@ -61,6 +63,6 @@ class RoomsController < ApplicationController
     end
 
     def room_params
-      params.require(:room).permit(:home_type, :room_type, :accommodate, :bed_room, :bath_room, :listing_name, :summery, :address, :is_tv, :is_kitchen, :is_air, :is_heating, :is_internet, :price, :active)
+      params.require(:room).permit(:home_type, :room_type, :accommodate, :bed_room, :bath_room, :listing_name, :summery, :address, :is_tv, :is_kitchen, :is_air, :is_heating, :is_internet, :price, :active, :photos)
     end
 end
