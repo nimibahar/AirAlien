@@ -10,7 +10,7 @@ class ReviewsController < ApplicationController
     room = @review.room_id
     @review.destroy
 
-    redirect_to room
+    redirect_to room_path
   end
 
   private

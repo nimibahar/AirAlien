@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160803111330) do
+ActiveRecord::Schema.define(version: 20160803134321) do
 
   create_table "conversations", force: :cascade do |t|
     t.integer  "sender_id"
@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 20160803111330) do
 
   create_table "reviews", force: :cascade do |t|
     t.text     "comment"
-    t.integer  "start"
+    t.integer  "star"
     t.integer  "room_id"
     t.integer  "user_id"
     t.datetime "created_at", null: false
