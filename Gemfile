@@ -25,6 +25,8 @@ gem 'font-awesome-rails', '~> 4.6', '>= 4.6.3.1'
 gem 'paperclip', '~> 5.0'
 gem 'geocoder', '~> 1.3', '>= 1.3.7'
 gem 'jquery-ui-rails', '~> 5.0', '>= 5.0.5'
+gem 'private_pub', '~> 1.0', '>= 1.0.3'
+gem 'thin', '~> 1.7'
 
 
 group :development, :test do
