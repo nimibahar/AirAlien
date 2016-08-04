@@ -1,3 +1,4 @@
+
 class ReviewsController < ApplicationController
 
   def create
@@ -10,7 +11,7 @@ class ReviewsController < ApplicationController
     room = @review.room_id
     @review.destroy
 
-    redirect_to room_path
+    redirect_to room_path(room)
   end
 
   private

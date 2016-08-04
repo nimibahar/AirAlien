@@ -16,7 +16,7 @@ class Room < ActiveRecord::Base
   validates :summery, presence: true, length: {maximum: 500}
   validates :address, presence: true
   validates :price, presence: true, numericality: true
-  validates :photos, presence: true
+  # validates :photos, presence: true
 
   def average_rating
     reviews.count == 0 ? 0 : reviews.average(:star).round(2)
