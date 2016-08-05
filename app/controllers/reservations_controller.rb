@@ -1,5 +1,5 @@
 class ReservationsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:notify]
 
   def preload
     room = Room.find(params[:room_id])
@@ -26,12 +26,47 @@ class ReservationsController < ApplicationController
     else
       @reservation = current_user.reservations.create(reservation_params)
 
-      redirect_to @reservation.room, notice: "Your reservation has been created"
+      if @reservation
+
+        # send a request to PayPal
+        values = {
+          business: 'nimrodbahar-facilitator@gmail.com',
+          cmd: '_xclick',
+          upload: 1,
+          notify_url: 'http://dc3ff76e.ngrok.io/notify',
+          amount: @reservation.total,
+          item_name: @reservation.room.listing_name,
+          item_number: @reservation.id,
+          quantity: '1',
+          return: 'http://dc3ff76e.ngrok.io/your_trips'
+        }
+
+        redirect_to "https://www.sandbox.paypal.com/cgi-bin/webscr?" + values.to_query
+      else
+        redirect_to @reservation.room, alert: "Oops, smg wet wrong"
+      end
     end
   end
 
+  protect_from_forgery except: [:notify]
+  def notify
+    params.permit!
+    status = params[:payment_status]
+
+    reservation = Reservation.find(params[:item_number])
+
+    if status = "Completed"
+      reservation.update_attributes status: true
+    else
+      reservation.destroy
+    end
+
+    render nothing: true
+  end
+
+  protect_from_forgery except: [:notify]
   def your_trips
-    @trips = current_user.reservations
+    @trips = current_user.reservations.where("status = ?", true)
   end
 
   def your_reservations
@@ -39,14 +74,14 @@ class ReservationsController < ApplicationController
   end
 
   private
-    def is_conflict(start_date, end_date)
-      room = Room.find(params[:room_id])
+  def is_conflict(start_date, end_date)
+    room = Room.find(params[:room_id])
 
-      check = room.reservations.where("? < start_date AND end_date < ?", start_date, end_date)
-      check.size > 0 ? true : false
-    end
+    check = room.reservations.where("? < start_date AND end_date < ?", start_date, end_date)
+    check.size > 0 ? true : false
+  end
 
-    def reservation_params
-      params.require(:reservation).permit(:start_date, :end_date, :price, :total, :room_id)
-    end
+  def reservation_params
+    params.require(:reservation).permit(:start_date, :end_date, :price, :total, :room_id)
+  end
 end
