@@ -10,6 +10,7 @@ Rails.application.routes.draw do
                             }
 
   resources :users, only: [:show]
+
   resources :rooms
   resources :photos
 
@@ -22,7 +23,9 @@ Rails.application.routes.draw do
   end
 
   resources :rooms do
-    resources :reviews, only: [:create, :destroy]
+    resources :reviews, only: [:create, :destroy] do
+      resources :host_reviews
+    end
   end
 
   get '/preload' => 'reservations#preload'
@@ -30,5 +33,8 @@ Rails.application.routes.draw do
 
   get '/your_trips' => 'reservations#your_trips'
   get '/your_reservations' => 'reservations#your_reservations'
+
+  post '/notify' => 'reservations#notify'
+  post '/your_trips' => 'reservations#your_trips'
 
 end
