@@ -27,7 +27,7 @@ gem 'geocoder', '~> 1.3', '>= 1.3.7'
 gem 'jquery-ui-rails', '~> 5.0', '>= 5.0.5'
 gem 'private_pub', '~> 1.0', '>= 1.0.3'
 gem 'thin', '~> 1.7'
-
+gem 'ransack', '~> 1.8', '>= 1.8.1'
 
 group :development, :test do
   gem 'byebug'
